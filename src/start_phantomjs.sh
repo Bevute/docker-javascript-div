@@ -5,9 +5,8 @@
 URL=${URL_ENV}
 DIV=${DIV_ENV}
 # tmp file
-TMP=/tmp/div_content.js
 
-cat <<EOF > ${TMP}
+TMP=$(cat <<EOF
 "use strict";
 var page = require('webpage').create();
 console.log('The default user agent is ' + page.settings.userAgent);
@@ -24,11 +23,10 @@ page.open("${URL}", function(status) {
   phantom.exit();
 });
 EOF
+)
 
+echo ${TMP} > /tmp/spider.js
 # start phantomjs with generated DIV Container config
-# and cut asci text
+/srv/phantomjs-2.1.1-linux-x86_64/bin/phantomjs --ssl-protocol=any --ignore-ssl-errors=yes /tmp/spider.js
 
-/srv/phantomjs-2.1.1-linux-x86_64/bin/phantomjs --ssl-protocol=any --ignore-ssl-errors=yes ${TMP}
-
-# delete TMP
-rm ${TMP}
+rm /tmp/spider.js
