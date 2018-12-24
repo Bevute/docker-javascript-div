@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# podman docker run wrapper
+# created by bevute
+# 2018.12.17
+
+# param check missing!!!
+export URL_ENV=$1
+export DIV_ENV=$2
+sudo podman run --rm -it -e URL_ENV="$1" -e DIV_ENV="$2" phantomjs:div
